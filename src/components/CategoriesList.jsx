@@ -1,6 +1,6 @@
 // src/components/CategoriesList.js
 
-const CategoriesList = () => {
+export const CategoriesList = () => {
     const categories = ["Sillas", "Mesas", "Sofás", "Decoración"];
   
     return (
@@ -21,5 +21,3 @@ const CategoriesList = () => {
         </ul>
     );
 };    
-
-export default CategoriesList;

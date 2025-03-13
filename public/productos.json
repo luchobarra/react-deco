@@ -1,0 +1,35 @@
+[
+    {
+      "id": 1,
+      "name": "Sillón de lujo",
+      "price": 299.99,
+      "categoria": "sillones",
+      "imageUrl": "https://via.placeholder.com/300",
+      "description": "Un sillón elegante y cómodo, ideal para cualquier sala de estar."
+    },
+    {
+      "id": 2,
+      "name": "Mesa de comedor moderna",
+      "price": 159.99,
+      "categoria": "mesas",
+      "imageUrl": "https://via.placeholder.com/300",
+      "description": "Mesa de comedor con un diseño moderno y elegante."
+    },
+    {
+      "id": 3,
+      "name": "Estantería minimalista",
+      "price": 79.99,
+      "categoria": "estanterías",
+      "imageUrl": "https://via.placeholder.com/300",
+      "description": "Estantería de madera con un diseño simple y funcional."
+    },
+    {
+      "id": 4,
+      "name": "Lámpara de pie elegante",
+      "price": 49.99,
+      "categoria": "iluminación",
+      "imageUrl": "https://via.placeholder.com/300",
+      "description": "Lámpara de pie con un diseño sofisticado para iluminar tu hogar."
+    }
+]
+  

@@ -1,0 +1,86 @@
+- Como crear un componente Contador
+- el cual tiene como funcion sumar o restar un  numero, a partir de clickear botones (sumar o restar)
+
+
+import { useState } from "react"
+
+export const Contador  = () => {
+  
+    //este es el estado (hook useState, para manipular los valores del contador una vez que el usuario interactue con el sitema)
+    
+    //useState devuelve un array con 2 valores
+    
+    //contador equivale al indice 0 del array (en este caso respresenta el valor de inico del contador que es 0)
+    
+    //y setContador (es el nombre del indice 0 mas la palabra set) representa una funcion, la que va a ejecutar el hook
+    const [contador ,setContador] = useState(0)
+
+    //estas son las acciones
+
+    //en este caso la funcion handlerSumar se aplica al boton sumar, y esta funcion le suma + 1 al valor de contador cada vez que se presion
+    
+    const handlerSumar = () => {
+        setContador(contador + 1)
+    }
+
+    //en este caso la funcion handlerRestar se aplica al boton restar, y esta funcion 
+    
+    le resta - 1 al valor de contador cada vez que se presion
+    const handlerRestar = () => {
+        setContador(contador - 1)
+    }
+
+    return (
+    
+    <div>
+        {/*en vez swe usar un numero harcodeado usamos el valor de contador, que comienza en 0, y se modifica a medida que se presionen los botones sumar o restar*/}
+        
+        <p>cantidad = {contador}</p>
+        
+        {/*se usa onClick (con camel case), esto es para declarar un evento, en este caso de click*/}
+        
+        {/*dentro de {} va la funcion a ejecutar una vez que se realice un click, previamente declarada*/}
+        
+        <button onClick={handlerSumar}>sumar</button>
+        <button onClick={handlerRestar}>restar</button>
+    </div>
+  )
+}
+
+
+Contador
+
+import { useState } from "react"
+
+export const Contador  = () => {
+  
+    //este es el estado (hook useState, para manipular los valores del contador una vez que el usuario interactue con el sitema)
+    //useState devuelve un array con 2 valores
+    //contador equivale al indice 0 del array (en este caso respresenta el valor de inico del contador que es 0)
+    //y setContador (es el nombre del indice 0 mas la palabra set) representa una funcion, la que va a ejecutar el hook
+    const [contador ,setContador] = useState(0)
+
+    //estas son las acciones
+
+    //en este caso la funcion handlerSumar se aplica al boton sumar, y esta funcion le suma + 1 al valor de contador cada vez que se presion
+    const handlerSumar = () => {
+        setContador(contador + 1)
+    }
+
+     //en este caso la funcion handlerRestar se aplica al boton restar, y esta funcion le resta - 1 al valor de contador cada vez que se presion
+    const handlerRestar = () => {
+        setContador(contador - 1)
+    }
+
+    return (
+    
+    <div>
+        {/*en vez swe usar un numero harcodeado usamos el valor de contador, que comienza en 0, y se modifica a medida que se presionen los botones sumar o restar*/}
+        <p>cantidad = {contador}</p>
+        {/*se usa onClick (con camel case), esto es para declarar un evento, en este caso de click*/}
+        {/*dentro de {} va la funcion a ejecutar una vez que se realice un click, previamente declarada*/}
+        <button onClick={handlerSumar}>sumar</button>
+        <button onClick={handlerRestar}>restar</button>
+    </div>
+  )
+}
