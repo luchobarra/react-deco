@@ -1,63 +1,82 @@
-import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-import { Link } from "react-router-dom"; // Para el botón de "Ver Detalle"
+// import { Button } from "./Button";
+// import { useContext } from "react";
+// import { CartContext } from "../context/CartContext";
 
-export const ItemDetail = () => {
-  const [producto, setProducto] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const { id } = useParams();  // Obtén el ID del producto de la URL
 
-  useEffect(() => {
-    const url = `https://dummyjson.com/products/${id}`;  // Ruta para obtener los detalles del producto por ID
+// export const ItemDetail = ({ product }) => {
+//   const { addToCart } = useContext(CartContext);
 
-    // Hacer la petición a la API
-    fetch(url)
-      .then((res) => res.json())
-      .then((data) => {
-        setProducto(data);  // Guardamos el producto con los detalles
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error("Error cargando el producto:", error);
-        setLoading(false);
-      });
-  }, [id]);  // Se vuelve a ejecutar cada vez que cambie el ID del producto
+//   const handleAddToCart = () => {
+//     addToCart(product); // Esto realmente lo agrega al contexto
+//     console.log(`Producto agregado al carrito: ${product.name}`);
+//   };
+
+//   return (
+//     <div className="p-6">
+//       <img src={product.image} alt={product.name} className="w-64 mx-auto mb-4" />
+//       <h2 className="text-2xl font-semibold">{product.name}</h2>
+//       <p className="text-gray-600">{product.description}</p>
+//       <p className="text-lg font-bold mt-2">${product.price}</p>
+//       <Button text="Agregar al carrito" onClick={handleAddToCart} className="mt-4" />
+//     </div>
+//   );
+// };
+
+import { Button } from "./Button";
+import { useContext } from "react";
+import { CartContext } from "../context/CartContext";
+import { PageWrapper } from "./FramerMotion"
+
+
+  export const ItemDetail = ({ product }) => {
+    const { addToCart } = useContext(CartContext);
+    
+    const handleAddToCart = () => {
+        addToCart({ ...product, quantity: 1 }); 
+        console.log(`Producto agregado al carrito: ${product.name}`);
+    };
+
 
   return (
-    <div className="container mx-auto p-4">
-      {loading ? (
-        // Placeholder para los detalles del producto mientras se carga
-        <div className="bg-white rounded-2xl shadow-lg p-6 max-w-md mx-auto flex flex-col animate-pulse">
-          <div className="bg-gray-300 w-full h-56 rounded-md mb-4"></div> {/* Imagen Placeholder */}
-          <div className="bg-gray-300 w-full h-8 rounded-md mb-2"></div> {/* Título Placeholder */}
-          <div className="bg-gray-300 w-full h-6 rounded-md mb-2"></div> {/* Descripción Placeholder */}
-          <div className="bg-gray-300 w-24 h-6 rounded-md mb-4"></div> {/* Precio Placeholder */}
-          <div className="bg-gray-300 w-full h-10 rounded-md"></div> {/* Botón Placeholder */}
-        </div>
-      ) : (
-        producto && (
-          <div className="bg-white rounded-2xl shadow-lg p-6 max-w-md mx-auto">
+    <PageWrapper>  
+      <div className="max-w-6xl m-18 bg-[#FAF1E6] rounded-lg shadow-md">
+        <div className="flex flex-col md:flex-row gap-8 items-start">
+          
+          {/* Imagen del producto */}
+          <div className="w-full md:w-1/2 h-[400px] md:h-[500px] overflow-hidden">
             <img
-              src={producto.thumbnail}
-              alt={producto.title}
-              className="w-full h-56 object-contain rounded-md mb-4"
+              src={product.image}
+              alt={product.name}
+              className="w-full h-full object-cover"
             />
-            <h3 className="text-xl font-semibold text-gray-900">{producto.title}</h3>
-            <p className="text-sm text-gray-600 mt-2">{producto.description}</p>
-            <div className="flex justify-between items-center mt-4">
-              <span className="text-xl font-bold text-gray-800">${producto.price}</span>
-              <Link
-                to={`/cart`}
-                className="bg-gray-600 text-white px-4 py-2 rounded-lg shadow-md hover:bg-gray-900 transition"
-              >
-                Agregar al carrito
-              </Link>
-            </div>
           </div>
-        )
-      )}
-    </div>
+
+          {/* Info del producto */}
+          <div className="flex flex-col justify-between w-full md:w-1/2 h-auto md:h-[500px] space-y-6 p-4">
+            
+            {/* Título y descripción */}
+            <div>
+              <h1 className="text-3xl font-bold text-gray-900">{product.name}</h1>
+              <p className="text-gray-700 text-base mt-4">{product.description}</p>
+            </div>
+
+            {/* Precio y botón */}
+            <div>
+              <p className="text-sm text-gray-500 mb-1">Precio:</p>
+              <div className="flex items-center justify-between">
+                <p className="text-3xl font-semibold text-gray-900">${product.price}</p>
+                <Button
+                  text="Agregar al carrito"
+                  onClick={handleAddToCart}
+                  className="bg-[#99BC85] text-gray-900 text-base font-semibold px-6 py-2 rounded-md hover:bg-[#889E73] transition-all duration-200"
+                />
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </PageWrapper>
   );
 };
-
-

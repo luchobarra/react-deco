@@ -1,8 +1,11 @@
 import { NavBar } from "./NavBar";
+import { PageWrapper } from "./FramerMotion"
 
 
 export const Header = () => {
   return (
-    <NavBar />
+    <PageWrapper>
+        <NavBar />
+    </PageWrapper>
   )
 }

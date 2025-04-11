@@ -1,40 +1,44 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
+import { getDoc, doc } from "firebase/firestore";
+import { db } from "../firebaseConfig";
 import { ItemDetail } from "./ItemDetail";
+import { SkeletonItemDetail } from "./SkeletonItemDetail";
+import { PageWrapper } from "./FramerMotion";
 
 export const ItemDetailContainer = () => {
-    const { id } = useParams();
-    const [producto, setProducto] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+  const { id } = useParams();
+  const [product, setProduct] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        fetch(`https://dummyjson.com/products/${id}`)
-        .then((res) => {
-            if (!res.ok) {
-            throw new Error("No se pudo cargar el producto");
-            }
-            return res.json();
-        })
-        .then((data) => {
-            setProducto(data);
-            setLoading(false);
-        })
-        .catch((error) => {
-            setError(error.message);
-            setLoading(false);
-        });
-    }, [id]);
+  useEffect(() => {
+    const fetchProduct = async () => {
+      try {
+        const productRef = doc(db, "products", id);
+        const productSnap = await getDoc(productRef);
 
-    return (
-        <div className="container mx-auto p-6">
-        {loading ? (
-            <p className="text-center text-xl text-gray-600">Cargando producto...</p>
-        ) : error ? (
-            <p className="text-center text-red-500">{error}</p>
-        ) : (
-            <ItemDetail producto={producto} />
-        )}
-        </div>
-    );
+        if (productSnap.exists()) {
+          setProduct({ id: productSnap.id, ...productSnap.data() });
+        } else {
+          console.log("⚠️ Producto no encontrado");
+        }
+      } catch (error) {
+        console.error("Error obteniendo producto:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProduct();
+  }, [id]);
+
+  return (
+    <PageWrapper>
+      {loading || !product ? (
+        <SkeletonItemDetail />
+      ) : (
+        <ItemDetail product={product} />
+      )}
+    </PageWrapper>
+  );
 };

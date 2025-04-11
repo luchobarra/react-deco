@@ -1,41 +1,31 @@
-import { useState, useEffect } from "react";
+import React, { useContext } from "react";
 import { useParams } from "react-router-dom";
+import { ProductsContext } from "../context/productsContext";
 import { ItemList } from "./Itemlist";
+import { PageWrapper } from "./FramerMotion"
+import { SkeletonCard } from "./SkeletonCard";
 
 export const ItemListContainer = () => {
-  const [productos, setProductos] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const { category } = useParams();  // Obtén la categoría de la URL
+  const { category } = useParams();
+  const { products } = useContext(ProductsContext);
 
-  useEffect(() => {
-    let url = "https://dummyjson.com/products";  // Ruta para obtener todos los productos
+  const filteredProducts = category
+    ? products.filter(product => product.category === category)
+    : products;
 
-    if (category) {
-      url = `https://dummyjson.com/products/category/${category}`;  // Filtra por categoría si existe
-    }
-
-    // Hacer la petición a la API
-    fetch(url)
-      .then((res) => res.json())
-      .then((data) => {
-        setProductos(data.products);  // Asegúrate de acceder a los productos correctamente
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error("Error cargando productos:", error);
-        setLoading(false);
-      });
-  }, [category]);  // Se vuelve a ejecutar cada vez que cambie la categoría
+  const isLoading = products.length === 0;
 
   return (
-    <div className="container mx-auto p-4">
-      {loading ? (
-        <div className="flex justify-center items-center">
-          <div className="spinner-border animate-spin border-4 border-t-4 border-primary rounded-full w-16 h-16"></div>
+    <PageWrapper>
+      {isLoading ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-4">
+          {Array.from({ length: 8 }).map((_, index) => (
+            <SkeletonCard key={index} />
+          ))}
         </div>
       ) : (
-        <ItemList productos={productos} />
+        <ItemList products={filteredProducts} />
       )}
-    </div>
+    </PageWrapper>
   );
 };
